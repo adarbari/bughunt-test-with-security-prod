@@ -16,14 +16,11 @@ public class App
 
     private void foo() throws Exception {
         bar("DES"); // this should create a warning
-        /// Adding a false comment
-        Cipher c = Cipher.getInstance("TEST");
-        
-        // This is a random comment
-        System.out.println("This is just random.");
-        
-        /// Adding a false comment
+        Cipher c = Cipher.getInstance("AES");
         Cipher d = Cipher.getInstance("TESTd");
+        
+        /// Adding a false comment
+        Cipher d = Cipher.getInstance("AES");
     }
 
     private void bar(String s) throws Exception
