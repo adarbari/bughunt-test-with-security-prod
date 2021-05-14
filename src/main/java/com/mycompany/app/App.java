@@ -16,11 +16,6 @@ public class App
 
     private void foo() throws Exception {
         bar("DES"); // this should create a warning
-        Cipher c = Cipher.getInstance("AES");
-        Cipher d = Cipher.getInstance("TESTd");
-        
-        /// Adding a false comment
-        Cipher e = Cipher.getInstance("AES");
     }
 
     private void bar(String s) throws Exception
