@@ -20,7 +20,7 @@ public class App
         Cipher d = Cipher.getInstance("TESTd");
         
         /// Adding a false comment
-        Cipher d = Cipher.getInstance("AES");
+        Cipher e = Cipher.getInstance("AES");
     }
 
     private void bar(String s) throws Exception
