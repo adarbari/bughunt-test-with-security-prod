@@ -45,15 +45,6 @@ jobs:
       run: mvn -B package --file pom.xml
 
     # Extra step requied for private beta .. 
-    - name: Checkout the action from a private repository
-      uses: actions/checkout@v2
-      if: ${{ always() }}
-      with:
-        repository: vijejain/cicd-actions-bugbash 
-        ref: refs/heads/main
-        token: ${{ secrets.PAT }}
-        path: ./.github/vijejain/cicd-actions-bugbash 
-
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       if: ${{ always() }}
@@ -61,16 +52,25 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-west-2
-
-    - name: AWS CodeGuru Reviewer
-      uses: ./.github/vijejain/cicd-actions-bugbash 
+    
+    # Refer to Step 2 for more details    
+    - name: Checkout the CodeGuru Reviewer Action repository
+      uses: actions/checkout@v2
       if: ${{ always() }}
-      with:          
-        name: pranss-cicd-bughunt-security-gamma
-        source_path: . # Java source code root
-        build_path: target # build artifact(s) directory
-        
+      with:
+        repository: vijejain/cicd-actions
+        ref: refs/heads/main
+        token: ${{ secrets.TOKEN }}   # Required for Private Beta
+        path: ./.github/vijejain/cicd-actions
 
+    - name: AWS CodeGuru Reviewer Scanner
+      uses: ./.github/vijejain/cicd-actions
+      if: ${{ always() }} 
+      with:
+        source_path: .        # Repository root 
+        build_path: target # build artifact(s) directory
+        # s3_bucket: 'codeguru-reviewer-myactions-bucket'  # S3 Bucket with "codeguru-reviewer-*" prefix
+    
     - name: Upload review result
       if: ${{ always() }}
       uses: github/codeql-action/upload-sarif@v1
